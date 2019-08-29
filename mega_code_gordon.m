@@ -1,18 +1,16 @@
 
-nSubs = 65;
+nSubs = 60;
 nTime = 1250;
-nROI = 264;
+nROI = 333;
 nRun = 3;
 nTrials = 48;
-subs = [1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;17;18;19;20;21;22;23;24;25;26;27;28;29;30;31;32;33;34;35;36;37;38;39;40;41;42;43;44;45;46;47;48;49;50;51;52;53;54;55;56;57;58;59;60;61;62;63;64;65];
-
 sub_ts = [2;4;5;6;7;8;9;10;11;12;13;14;15;17;18;19;20;21;22;23;24;25;26;27;28;29;30;31;33;34;35;36;37;38;39;40;41;42;43;45;46;47;48;49;50;51;52;53;54;55;56;57;58;59;60;61;62;63;64;65];
-nSubs2 = size(sub_ts,1);
+nSubs = size(sub_ts,1);
 
 
 % prepare task regressors (epoch)
 
-for i = 1:nSubs2
+for i = 1:nSubs
     
     cd ~/Desktop/
     cd ../../../Volumes/'Seagate Backup Plus Drive '/7T_data/3_behav_data/
@@ -37,8 +35,8 @@ for i = 1:nSubs2
     onset3 = zeros(1400,6);
     
         
-    for x = 1:48
-    	for y = 1:3
+    for x = 1:nTrials
+    	for y = 1:nRun
             for z = 1:2
                 if run1_cat(x,1) == y
                     onset1(round(run1(x)./.586):round(run1(x)./.586)+9,y) = 1;
@@ -46,7 +44,7 @@ for i = 1:nSubs2
         end
     end
     
-    for x = 1:48
+    for x = 1:nTrials
     	for y = 1:4
         	if run2_cat(x,1) == y
             	onset2(round(run2(x)./.586):round(run2(x)./.586)+9,y) = 1;
@@ -54,9 +52,10 @@ for i = 1:nSubs2
         end
     end
     
-    for x = 1:48
+    for x = 1:nTrials
     	for y = 1:4
-        	if run3_cat(x,1) == y
+        	if run
+            _cat(x,1) == y
             	onset3(round(run3(x)./.586):round(run3(x)./.586)+9,y) = 1;
             end
         end
@@ -90,7 +89,7 @@ end
 
 % prepare task regressors (FIR)
 
-for i = 1:nSubs2
+for i = 1:nSubs
     
     cd ~/Desktop/
     cd ../../../Volumes/'Seagate Backup Plus Drive '/7T_data/3_behav_data/
@@ -101,21 +100,21 @@ for i = 1:nSubs2
     
     
     
-    run1_cat = fMRI_out(1:48,2)';
-    run2_cat = fMRI_out(49:96,2)';
-    run3_cat = fMRI_out(97:144,2)';
+    run1_cat = fMRI_out(1:nTrials,2)';
+    run2_cat = fMRI_out(nTrials+1:nTrials*2,2)';
+    run3_cat = fMRI_out(nTrials*2+1:nTrials*3,2)';
         
-    run1 = fMRI_out(1:48,3);
-    run2 = fMRI_out(49:96,3);
-    run3 = fMRI_out(97:144,3);
+    run1 = fMRI_out(1:nTrials,3);
+    run2 = fMRI_out(nTrials+1:nTrials*2,3);
+    run3 = fMRI_out(nTrials*2+1:nTrials*3,3);
         
-    run1_acc = fMRI_out(1:48,6);
-    run2_acc = fMRI_out(49:96,6);
-    run3_acc = fMRI_out(97:144,6);
+    run1_acc = fMRI_out(1:nTrials,6);
+    run2_acc = fMRI_out(nTrials+1:nTrials*2,6);
+    run3_acc = fMRI_out(nTrials*2+1:nTrials*3,6);
     
-    run1_conf = rec.confKey(1:48)';
-    run2_conf = rec.confKey(49:96)';
-    run3_conf = rec.confKey(97:144)';
+    run1_conf = rec.confKey(1:nTrials)';
+    run2_conf = rec.confKey(nTrials+1:nTrials*2)';
+    run3_conf = rec.confKey(nTrials*2+1:nTrials*3)';
     
     clear runcat runresp
     
@@ -283,7 +282,7 @@ end
 % need to re-do this...
 
 
-for i = 1:nSubs2
+for i = 1:nSubs
     
     cd ~/Desktop/
     cd ../../../Volumes/'Seagate Backup Plus Drive '/7T_data/3_behav_data/
@@ -542,7 +541,7 @@ end
 
 nThal = 31;
 
-for i = 1:nSubs2
+for i = 1:nSubs
     
     cd ~/Documents/Drafts/Continuing/7t/data/
     abc = sprintf('%s%d','cd sub',sub_ts(i));
@@ -580,7 +579,7 @@ end
 
 
 
-for i = 1:nSubs2
+for i = 1:nSubs
     
     cd ~/Documents/Drafts/Continuing/7t/data/
     abc = sprintf('%s%d','cd sub',sub_ts(i));
@@ -603,7 +602,7 @@ for i = 1:nSubs2
 end
 
 
-for i = 1:nSubs2
+for i = 1:nSubs
     
     cd ~/Documents/Drafts/Continuing/7t/data/
     abc = sprintf('%s%d','cd sub',sub_ts(i));
@@ -635,7 +634,7 @@ end
 %% import Gordon ROI time series
 
 
-for i = 1:nSubs2
+for i = 1:nSubs
 
     for x = 1:3
             
@@ -707,7 +706,7 @@ end
 
 
 
-for i = 1:nSubs2
+for i = 1:nSubs
 
     for x = 1:3
         
@@ -742,7 +741,7 @@ save exp_grp exp_grp
 
 %% concatenate dsmtx
 
-for i = 1:nSubs2
+for i = 1:nSubs
 
     for x = 1:3
         
@@ -768,7 +767,7 @@ save dsmtx_concat dsmtx_concat
 
 %% concatenate dsmtx_epoch
 
-for i = 1:nSubs2
+for i = 1:nSubs
 
     for x = 1:3
         
@@ -820,7 +819,7 @@ end
 save dsmtx_concat1_corr dsmtx_concat1_corr
 
 
-for i = 1:nSubs2
+for i = 1:nSubs
 
     for x = 1:3
         
@@ -871,7 +870,7 @@ end
 
 %% extract trial-based time series
 
-for i = 1:nSubs2
+for i = 1:nSubs
 
     for x = 1:3
         
@@ -926,7 +925,7 @@ end
 %         end
 %     end
 % end
-for i = 1:nSubs2
+for i = 1:nSubs
     for y = 1:3
         for x = 1:10
 
@@ -940,7 +939,7 @@ for i = 1:nSubs2
 end
 
 
-for i = 1:nSubs2
+for i = 1:nSubs
     for y = 1:3
         for x = 1:11
 
